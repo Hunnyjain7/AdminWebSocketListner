@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from . models import UserRole, User
+from .models import UserRole, User
 
 
 def logIn(request):
@@ -43,7 +43,6 @@ def adminLogIn(request):
             user_id = user.get().id
 
             role = UserRole.objects.get(user_id=user_id)
-            print(role)
 
             if role.role_id.role_name == 'Admin':
                 request.session['id'] = user_id
@@ -59,7 +58,6 @@ def adminLogIn(request):
 def dashboard(request):
     try:
         return render(request, 'dashboard.html')
-
     except Exception as E:
         print(E)
         return render(request, 'logIn')
@@ -67,9 +65,7 @@ def dashboard(request):
 
 def adminDashboard(request):
     try:
-        print("here admindash")
         return render(request, 'admindashboard.html')
-
     except Exception as E:
         print(E)
         return render(request, 'adminlogin.html')
