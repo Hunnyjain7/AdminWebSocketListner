@@ -1,10 +1,9 @@
-from django.contrib import admin
 from django.urls import path
 from .views import *
 
 urlpatterns = [
-    path('', logIn, name='logIn'),
-    path('adminlogin', adminLogIn, name='adminlogin'),  # noqa
-    path('dashboard', dashboard, name="userdashboard"),  # noqa
-    path('admindashboard', adminDashboard, name="admindashboard"),  # noqa
+    path('', logIn, name='login'),
+    path('dashboard', dashboard, name="dashboard"),
+    path('admin_login', adminLogIn, name='admin_login'),
+    path('admin_dashboard', adminDashboard, name="admin_dashboard"),
 ]

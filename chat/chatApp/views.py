@@ -1,6 +1,4 @@
 from django.shortcuts import render, redirect
-
-# Create your views here.
 from .models import UserRole, User
 
 
@@ -17,8 +15,6 @@ def logIn(request):
             user_id = user.get().id
 
             role = UserRole.objects.get(user_id=user_id)
-            print(role)
-
             if role.role_id.role_name == 'User':
                 request.session['id'] = user_id
                 return redirect('/dashboard')
@@ -33,26 +29,26 @@ def logIn(request):
 def adminLogIn(request):
     try:
         if 'id' in request.session:
-            return redirect('/admindashboard')
+            return redirect('/admin_dashboard')
         if request.method == "POST":
             email = request.POST.get("email")
             password = request.POST.get("password")
             user = User.objects.filter(email=email).filter(password=password)
             if not user:
-                return redirect("/")
+                return redirect("/admin_login")
             user_id = user.get().id
 
             role = UserRole.objects.get(user_id=user_id)
 
             if role.role_id.role_name == 'Admin':
                 request.session['id'] = user_id
-                return redirect('admindashboard')
+                return redirect('/admin_dashboard')
             else:
                 return redirect("/")
-        return render(request, 'adminlogin.html')
+        return render(request, 'adminlogin.html')  # noqa
     except Exception as E:
         print(E)
-        return render(request, 'adminlogin.html')
+        return render(request, 'adminlogin.html')  # noqa
 
 
 def dashboard(request):
@@ -60,12 +56,12 @@ def dashboard(request):
         return render(request, 'dashboard.html')
     except Exception as E:
         print(E)
-        return render(request, 'logIn')
+        return render(request, 'login.html')
 
 
 def adminDashboard(request):
     try:
-        return render(request, 'admindashboard.html')
+        return render(request, 'admindashboard.html')  # noqa
     except Exception as E:
         print(E)
-        return render(request, 'adminlogin.html')
+        return render(request, 'adminlogin.html')  # noqa
