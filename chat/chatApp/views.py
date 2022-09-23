@@ -1,5 +1,28 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
+from django.views import View
+from django.utils.translation import ugettext_lazy as _
 from .models import UserRole, User
+
+
+class Register(View):
+    def get(self, request):
+        return render(request, 'register.html')
+
+    def post(self, request):
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+        profile_image = request.FILES.get("profile_image")
+
+        print(name, email, password, profile_image)
+
+        user = User(name=name, email=email, password=password, profile_image=profile_image)
+        user.save()
+        if user:
+            return redirect('login')
+        else:
+            return redirect('register')
 
 
 def logIn(request):
@@ -65,3 +88,15 @@ def adminDashboard(request):
     except Exception as E:
         print(E)
         return render(request, 'adminlogin.html')  # noqa
+
+
+# def simpleGeneratorFun(request):
+#     print("req", request)
+#     yield JsonResponse({"status", "cool 1"})
+#     yield JsonResponse({"status", "cool 2"})
+#     yield JsonResponse({"status", "cool 3"})
+#     yield JsonResponse({"status", "cool 4"})
+
+# Driver code to check above generator function
+# for value in simpleGeneratorFun():
+#     print(value)
